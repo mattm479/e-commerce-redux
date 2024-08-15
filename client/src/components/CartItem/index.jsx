@@ -1,37 +1,24 @@
-import { useStoreContext } from "../../utils/GlobalState.jsx";
-import { REMOVE_FROM_CART, UPDATE_CART_QUANTITY } from "../../utils/actions.js";
+import { removeFromCart, updateCartQuantity } from "../../utils/actions.js";
 import { idbPromise } from "../../utils/helpers.js";
+import {useDispatch} from "react-redux";
 
 const CartItem = ({ item }) => {
+  const dispatch = useDispatch();
 
-  const [, dispatch] = useStoreContext();
-
-  const removeFromCart = item => {
-    dispatch({
-      type: REMOVE_FROM_CART,
-      _id: item._id
-    });
+  const removeItemFromCart = (item) => {
+    dispatch(removeFromCart({ _id: item._id }));
     idbPromise('cart', 'delete', { ...item });
-
   };
 
   const onChange = (e) => {
-    const value = e.target.value;
-    if (value === '0') {
-      dispatch({
-        type: REMOVE_FROM_CART,
-        _id: item._id
-      });
+    const value = parseInt(e.target.value);
+    if (value === 0) {
+      dispatch(removeFromCart({ _id: item._id }));
       idbPromise('cart', 'delete', { ...item });
 
     } else {
-      dispatch({
-        type: UPDATE_CART_QUANTITY,
-        _id: item._id,
-        purchaseQuantity: parseInt(value)
-      });
-      idbPromise('cart', 'put', { ...item, purchaseQuantity: parseInt(value) });
-
+      dispatch(updateCartQuantity({ item: { ...item, purchaseQuantity: value } }));
+      idbPromise('cart', 'put', { ...item, purchaseQuantity: value });
     }
   }
 
@@ -56,7 +43,7 @@ const CartItem = ({ item }) => {
           <span
             role="img"
             aria-label="trash"
-            onClick={() => removeFromCart(item)}
+            onClick={() => removeItemFromCart(item)}
           >
             🗑️
           </span>

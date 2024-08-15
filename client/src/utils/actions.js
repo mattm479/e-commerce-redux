@@ -1,11 +1,14 @@
-export const UPDATE_PRODUCTS = "UPDATE_PRODUCTS";
+import {createAction} from "@reduxjs/toolkit";
 
-export const ADD_TO_CART = "ADD_TO_CART";
-export const ADD_MULTIPLE_TO_CART = "ADD_MULTIPLE_TO_CART";
-export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
-export const CLEAR_CART = "CLEAR_CART";
-export const UPDATE_CART_QUANTITY = "UPDATE_CART_QUANTITY";
-export const TOGGLE_CART = "TOGGLE_CART";
 
-export const UPDATE_CATEGORIES = "UPDATE_CATEGORIES";
-export const UPDATE_CURRENT_CATEGORY = "UPDATE_CURRENT_CATEGORY";
+export const updateProducts = createAction("products/update");
+export const addProduct = createAction("products/add");
+export const addMultipleProducts = createAction("products/add-multiple");
+
+export const removeFromCart = createAction("cart/remove");
+export const clearCart = createAction("cart/clear");
+export const updateCartQuantity = createAction("cart/update-quantity");
+export const toggleCart = createAction("cart/toggle");
+
+export const updateCategories = createAction("categories/update");
+export const updateCurrentCategory = createAction("categories/update-current");
